@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="corejava">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/libs/corejava.zip!/corejava" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/libs/corejava.zip!/" />
+    </SOURCES>
+  </library>
+</component>
