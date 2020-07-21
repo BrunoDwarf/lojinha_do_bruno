@@ -12,10 +12,11 @@ import java.util.ArrayList;
 
 public class main {
     public static void main(String[] args) {
-        int quantidadeProduto, quantidadeCategoria, opcaoMenuInicial, opcaoSubMenu, categoriaNumero = 1, descontoContinuo, taxaEmergencial;
+        int quantidadeProduto, quantidadeCategoria, opcaoMenuInicial, opcaoSubMenu, opcaoTipoProduto, categoriaNumero,
+                categoriaNumeroControle = 1, i, descontoContinuo, taxaEmergencial;
         String produtoNome, categoriaNome;
         double produtoPreco;
-        boolean continua = true, controle = false, achou = false;
+        boolean continuaRotina = true, achouValor = false, controle = false;
 
         Produto umProduto = null;
         Categoria umCategoria = null;
@@ -27,7 +28,7 @@ public class main {
         ArrayList<Categoria> lista_de_categorias = new ArrayList(quantidadeCategoria);
         ArrayList<Produto> lista_de_produtos = new ArrayList(quantidadeProduto);
 
-        while(continua)
+        while(continuaRotina)
         {
             System.out.println("\nMenu de Ações");
             System.out.println("1 - Cadastrar.");
@@ -46,34 +47,67 @@ public class main {
 
                     opcaoSubMenu = Console1.readInt("\nDigite o número (1 à 2) correspondente a ação escolhida: ");
 
-                    if((opcaoSubMenu == 1) && (quantidadeCategoria > 0)) {
-                        System.out.println("\nCadastramento de Categoria");
-                        System.out.println("Número da Categoria: " + categoriaNumero);
-                        categoriaNome = Console1.readLine("Descrição da Categoria: ");
+                    if(opcaoSubMenu == 1) {
+                        if(quantidadeCategoria > 0) {
+                            System.out.println("\nCadastramento de Categoria");
+                            System.out.println("Número da Categoria: " + categoriaNumeroControle);
+                            categoriaNome = Console1.readLine("Nome da Categoria: ");
 
-                        umCategoria = new Categoria(categoriaNome);
-                        lista_de_categorias.add(umCategoria);
-                        quantidadeCategoria --;
-                        categoriaNumero ++;
+                            if(lista_de_categorias.isEmpty() == false) {
+                                for(i = 0; i < lista_de_categorias.size(); i++) {
+                                    umCategoria = lista_de_categorias.get(i);
+                                    if (umCategoria.getNome() == categoriaNome) {
+                                        achouValor = true;
+                                        break;
+                                    }
+                                }
+                            }
 
-                        System.out.println("\nCategoria cadastrada com sucesso!");
+                            if(achouValor) {
+                                System.out.println("\nCategoria já cadastrada!");
+                            }
+                            else {
+                                umCategoria = new Categoria(categoriaNome);
+                                lista_de_categorias.add(umCategoria);
+                                quantidadeCategoria --;
+                                categoriaNumeroControle ++;
+
+                                System.out.println("\nCategoria cadastrada com sucesso!");
+                            }
+                        }
+                        else {
+                            System.out.println("\nJá cadastrou o número total de categorias.");
+                        }
                     }
-                    else {
-                        System.out.println("\nCadastramento de Produto");
-                        produtoNome = Console1.readLine("Nome do Produto: ");
-                        produtoPreco = Console1.readDouble("Preço do Produto: ");
-                        categoriaNumero = Console1.readInt("Número da Categoria: ");
+                    else if(opcaoSubMenu == 2) {
+                        if(lista_de_categorias.isEmpty() == false) {
+                            System.out.println("\nCadastramento de Produto");
+                            produtoNome = Console1.readLine("Nome do Produto: ");
+                            produtoPreco = Console1.readDouble("Preço do Produto: ");
+                            categoriaNumero = Console1.readInt("Número da Categoria: ");
 
-                        for(i = 0; i < lista_de_categorias.size(); ++i) {
-                            umCategoria = (Categoria)lista_de_categorias.get(i);
-                            if (umCategoria.getNumero() == categoria_numero) {
-                                achou = true;
-                                break;
+                            for(i = 0; i < lista_de_categorias.size(); ++i) {
+                                umCategoria = lista_de_categorias.get(i);
+                                if (umCategoria.getNumero() == categoriaNumero) {
+                                    achouValor = true;
+                                    break;
+                                }
+                            }
+
+                            if(achouValor) {
+                                System.out.println("\nTipos de Produto");
+                                System.out.println("1 - Produto Continuo.");
+                                System.out.println("2 - Produto Emergencial.");
+
+                                opcaoTipoProduto = Console1.readInt("\nDigite o número (1 à 2) correspondente ao tipo de produto: ");
                             }
                         }
 
-                    }
 
+                    }
+                    else {
+                        System.out.println("\nNúmero digitado não corresponde as opções do menu!");
+                    }
             }
         }
 
